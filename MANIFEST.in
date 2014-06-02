@@ -1,4 +1,4 @@
 include README.rst AUTHORS.txt LICENSE
 recursive-include djrill/templates/djrill *.html
 recursive-include djrill/mail *.py
-recursive-include djrill/templatetags/ *.py
+recursive-include djrill/templatetags *.py
