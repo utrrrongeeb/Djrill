@@ -81,7 +81,7 @@ class DjrillApiJsonObjectsMixin(object):
         """
         If the API returns an error, display it to the user.
         """
-        content = json.loads(req.content)
+        content = json.loads(str(req.content, encoding='utf-8'))
         return "Mandrill returned a %d response: %s" % (req.status_code,
                                                         content["message"])
 
@@ -147,7 +147,7 @@ class DjrillIndexView(DjrillApiMixin, TemplateView):
         payload = json.dumps({"key": self.api_key})
         req = requests.post("%s/users/info.json" % self.api_url, data=payload)
 
-        return self.render_to_response({"status": json.loads(req.content)})
+        return self.render_to_response({"status": json.loads(str(req.content, encoding='utf-8'))})
 
 
 class DjrillSendersListView(DjrillAdminMedia, DjrillApiMixin,
@@ -157,7 +157,7 @@ class DjrillSendersListView(DjrillAdminMedia, DjrillApiMixin,
     template_name = "djrill/senders_list.html"
 
     def get(self, request, *args, **kwargs):
-        objects = self.get_json_objects()
+        objects = str(self.get_json_objects(), encoding='utf-8')
         context = self.get_context_data()
         context.update({
             "objects": json.loads(objects),
@@ -174,7 +174,7 @@ class DjrillTagListView(DjrillAdminMedia, DjrillApiMixin,
     template_name = "djrill/tags_list.html"
 
     def get(self, request, *args, **kwargs):
-        objects = self.get_json_objects()
+        objects = str(self.get_json_objects(), encoding='utf-8')
         context = self.get_context_data()
         context.update({
             "objects": json.loads(objects),
@@ -190,7 +190,7 @@ class DjrillUrlListView(DjrillAdminMedia, DjrillApiMixin,
     template_name = "djrill/urls_list.html"
 
     def get(self, request, *args, **kwargs):
-        objects = self.get_json_objects()
+        objects = str(self.get_json_objects(), encoding='utf-8')
         context = self.get_context_data()
         context.update({
             "objects": json.loads(objects),
